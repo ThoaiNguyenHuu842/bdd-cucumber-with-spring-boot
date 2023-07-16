@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: "jdbc:mysql://localhost:3306/nht_demo"
+    password: "root"
+    username: "root"
+  batch:
+    initialize-schema: always
+    chunk-size: 10
+    job:
+      enabled: false

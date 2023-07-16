@@ -1,0 +1,46 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id 'io.freefair.lombok' version '5.0.0'
+	id 'com.avast.gradle.docker-compose' version '0.16.12'
+}
+
+group = 'nht.demo-cucumber'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = "11"
+	targetCompatibility = "11"
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', 'Hoxton.SR5')
+}
+
+dependencies {
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'mysql:mysql-connector-java'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	testImplementation 'io.cucumber:cucumber-java:7.13.0'
+	testImplementation 'io.cucumber:cucumber-spring:7.13.0'
+	testImplementation 'io.cucumber:cucumber-junit:7.13.0'
+	testImplementation 'io.cucumber:cucumber-core:7.13.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dockerCompose {
+	useComposeFiles = ['docker/docker-compose.yml']
+}
+
+test {
+	useJUnitPlatform()
+	dependsOn composeUp
+	finalizedBy composeDown
+}
