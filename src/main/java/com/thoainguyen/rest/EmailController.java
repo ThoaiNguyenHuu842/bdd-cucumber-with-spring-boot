@@ -35,11 +35,21 @@ public class EmailController extends BaseController {
     }
   }
 
-  @PostMapping("/emails/{emailId}/contacts/{contactId}/click")
-  public ResponseEntity clickEmail(@PathVariable Long emailId, @PathVariable  Long contactId) {
+  @PostMapping("/emails/{emailId}/contacts/{contactId}/open")
+  public ResponseEntity openEmail(@PathVariable Long emailId, @PathVariable  Long contactId) {
     try {
-      emailService.clickEmail(emailId,contactId);
+      emailService.openEmail(emailId,contactId);
       return ResponseEntity.ok().build();
+    }
+    catch (Exception ex) {
+      return handleInternalServerError(ex);
+    }
+  }
+
+  @GetMapping("/emails/{emailId}/report")
+  public ResponseEntity getEmailReport(@PathVariable Long emailId) {
+    try {
+      return ResponseEntity.ok(emailService.getEmailReport(emailId));
     }
     catch (Exception ex) {
       return handleInternalServerError(ex);

@@ -1,12 +1,17 @@
 # Introduction
 
-This project aims to demonstrate how to implement ETL (Extract, Transform and Load) using Spring Batch. The purpose of this ETL job is about generating a monthly report which 
-reveals how many items of each product have been sold in an E-commerce platform.
+BDD test stands for behavior-driven development test. It is a testing methodology used in agile software development and is an extension of Test-Driven Development (TDD). 
+This project demonstrates how to apply BDD in a simple Spring Boot application with Cucumber which is a tool that supports BDD with Gherkin language.
+
+This Sping Boot application - Email Service contains some REST APIs to perform some operations in a CRM system such as:
+- Send email to contacts (or customer)
+- Track email opens
+- Get email send statistics (how many contacts were sent email successfully to, how many contacts opened email)
 
 
 ## Tech stack
 
-Docker Compose, MySQL, JDK 11, Gradle, Spring boot, Spring Batch, Flyway
+Docker Compose, MySQL, JDK 11, Gradle, Spring boot, Flyway, Cucumber
 
 ## Project structure
     .
@@ -15,35 +20,22 @@ Docker Compose, MySQL, JDK 11, Gradle, Spring boot, Spring Batch, Flyway
     ├──── docker-compose.yml      # build up MySQL containers and initiate needed databases
     ├── src                       
     ├──── main                    
-    ├────── java                  # contain all source code including repositories, ETL services and REST endpoints
+    ├────── java                  # contain all source code
     ├────── resources             
     └──────── db.migration        # flyway scripts to initiate MySQL tables
+    ├──── test                    
+    ├────── java                  # cucumber configuration and steps definition
+    ├────── resources             # cucumber feature files
 
 ## How to get started?
-We need to build up MySQL and needed databases (**nht_transaction** and **nht_warehouse**) using docker-compose:
-```shell
-cd docker
-docker-compose up
-```
-Then you can start the application via:
+You can start Cucumber test of the application via the below command, we build up a
+MySQL docker container before testing and remove it after testing automatically:
 ```shell
 gradle build
-gradle bootRun
+gradlew clean test
 ```
-The Spring Boot application will start and run flyway scripts to create MySQL tables
-and sample data:
-1. **nht_transaction.product**: store product data with 18 sample records
-2. **nht_transaction.transaction**: store transaction of products with 1000 sample records
-3. **nht_warehouse.fact_transaction_product_monthly**: store total quantity of each product in monthly
-which will be used to generate the report.
+The test result will include one test fail as the below screenshot in order to demonstrate how BDD
+is applied to software development process, this failure test is a new requirement from
+the business side. We can add more code to cover it by uncommenting line 53 at **EmailServiceImpl.java**
 
-## ETL process
-We use a Rest API to trigger the ETL process for a specific month for example:
-```shell
-curl --location --request POST 'localhost:8080/etl?year=2022&month=4'
-```
-The ETL process requires the **year** and **month** parameters inputted from the above Rest API and includes three steps: extract, transform, load that are implemented as a corresponding service
-in src.main.service including: 
-1. **TransactionProductMonthlyExtractor**: extract all products 
-2. **TransactionProductMonthlyTransformer**: retrieve total quantity of each project in a month
-3. **TransactionProductMonthlyLoader**: persists total quantity of each product into fact_transaction_product_monthly table
+![img.png](img.png)
