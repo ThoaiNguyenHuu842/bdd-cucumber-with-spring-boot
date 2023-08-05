@@ -31,11 +31,6 @@ Docker Compose, MySQL, JDK 11, Gradle, Spring boot, Flyway, Cucumber
 You can start Cucumber test of the application via the below command, we build up a
 MySQL docker container before testing and remove it after testing automatically:
 ```shell
-gradle build
+gradlew build
 gradlew clean test
 ```
-The test result will include one test fail as the below screenshot in order to demonstrate how BDD
-is applied to software development process, this failure test is a new requirement from
-the business side. We can add more code to cover it by uncommenting line 53 at **EmailServiceImpl.java**
-
-![img.png](img.png)

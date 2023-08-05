@@ -7,7 +7,7 @@ Feature: send email
       | Ti    | ti@gmail.com    | false        |
       | Teo   | teo@gmail.com   | true         |
 
-  Scenario: send an email to subscribed contacts
+  Scenario: send an email to contacts
     When the email with title "hello" and content "how are you" is sent to below emails
       | thoai@gmail.com |
       | ti@gmail.com    |
@@ -15,7 +15,7 @@ Feature: send email
       | Title | Content     | Total Contacts | Total Sent | Total Error | Total Opened |
       | hello | how are you | 2              | 2          | 0           | 0            |
 
-  Scenario: send an email to subscribed contacts, then two contacts open email
+  Scenario: send an email to contacts, then two contacts open email
     When the email with title "hello" and content "how are you" is sent to below emails
       | thoai@gmail.com |
       | ti@gmail.com    |

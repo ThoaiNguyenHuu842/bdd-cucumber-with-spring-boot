@@ -9,6 +9,7 @@ import com.thoainguyen.repository.EmailRepository;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
 import java.net.URI;
@@ -90,7 +91,7 @@ public class SpringIntegrationTest {
     restTemplate.postForObject(uri, null, Void.class);
   }
 
-  @When("^the below report of email with title \"([^\"]*)\" exists")
+  @Then("^the below report of email with title \"([^\"]*)\" exists")
   public void getReport(String emailTitle, DataTable table) {
     Long emailId = emailRepository.findByTitleIn(Set.of(emailTitle)).get(0).getId();
     URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl).path("/emails/{emailId}/report").buildAndExpand(emailId).toUri();
@@ -106,11 +107,5 @@ public class SpringIntegrationTest {
     expectedData.setTotalOpened(Integer.parseInt(columns.get(5)));
 
     Assertions.assertTrue(expectedData.compare(actualData));
-  }
-
-  private final class ContactDto {
-    public String name;
-    public String email;
-    public boolean unsubscribed;
   }
 }

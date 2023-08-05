@@ -54,8 +54,7 @@ public class EmailServiceImpl implements EmailService {
       .contact(contact)
       .email(email)
       .createdDate(ZonedDateTime.now())
-      .sendEmailStatus(SendEmailStatus.SENT)
-      //.sendEmailStatus(contact.isUnsubscribed() ? SendEmailStatus.ERROR : SendEmailStatus.SENT)
+      .sendEmailStatus(contact.isUnsubscribed() ? SendEmailStatus.ERROR : SendEmailStatus.SENT)
       .build())
       .collect(Collectors.toSet());
 
